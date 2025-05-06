@@ -88,7 +88,7 @@ public void EquipItem(CustomizationItem item)
 - Preview combinations
 - Validate parts
 - Test without runtime
-- The artist has a place to showcase their works for review.
+- The Artist has a place to showcase their works for review.
 - The Level Design and Game Design have a place to find the objects they need.
   
 # Summary Checklist 
