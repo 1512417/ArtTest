@@ -20,6 +20,8 @@ Here’s a breakdown of how to approach this from both the tech and art/animatio
 - Avoid main rig weighting
 - Ensure smooth, natural weighting
 ### 4. Export & Prefab Standards
+- Avoid physics-based collisions unless critical.
+- If used, simplify colliders (capsules/spheres only).
 ## 🔧 Technical Implementation
 ### Option A: Unity Built-In Solution
 - Simple implementation
