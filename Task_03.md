@@ -25,7 +25,7 @@ Assets/
 │   └── Faces/
  ```
 
-### Customization Item Definition
+### Customization Item Definition (ScriptableObject)
 ```csharp
 [CreateAssetMenu(menuName = "Customization/Item")]
 public class CustomizationItem : ScriptableObject
@@ -34,7 +34,6 @@ public class CustomizationItem : ScriptableObject
     public GameObject prefab;
     public CustomizationCategory category;
 }
- ```
 ```
 
 ## 3. Runtime Customization System
@@ -54,7 +53,6 @@ public void EquipItem(CustomizationItem item)
     // Instantiate new
     Instantiate(item.prefab, attachPoint);
 }
- ```
 ```
 
 ## 4. Optimization Techniques
@@ -71,26 +69,29 @@ public void EquipItem(CustomizationItem item)
 - Reuse instantiated customization objects
 - Avoid runtime GC spikes
 
-## 5. Content Creation Guidelines
+## 5. Content Creation Guidelines (Artist)
 ### Artist Requirements
 - Match bone weights and hierarchy
 - Follow naming conventions
 - Use consistent scale and orientation
 - Export in FBX format by category
 
-## 6. Testing & Profiling
+## 6. Testing & Profiling (TechArt)
 ### Performance Monitoring
 - Use Unity Profiler
 - Monitor CPU/GPU usage
 - Track draw calls and memory
 - Test on low-end devices
 
-## 7. Editor Tools
+## 7. Editor Tools (TechArt)
 ### Customization Editor
 - Preview combinations
 - Validate parts
 - Test without runtime
-## Summary Checklist 
+- The artist has a place to showcase their works for review.
+- The Level Design and Game Design have a place to find the objects they need.
+  
+# Summary Checklist 
 | Area | Solution |
 |------|----------|
 | Base Mesh | One rig, modular parts |
