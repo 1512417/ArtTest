@@ -60,4 +60,5 @@ Check conversion
 ### Pipeline Integration
 A Validator tool should be built that includes all QC tools for artists to validate their files before integrating them into Unity. This tool should check for issues such as clearing all history, freezing transforms, ensuring UVs exist, and identifying lamina faces, among others.
 If you don't have one, I can build it for you, like this:
+
 ![image](https://github.com/user-attachments/assets/22973233-f46b-4c97-a0cc-62f2494c2c99)
