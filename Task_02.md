@@ -258,8 +258,8 @@ Shader "Custom/CamoShader"
         _WhiteColor ("White Areas Color", Color) = (1,1,1,1)
         _GreyColor ("Grey Areas Color", Color) = (0.5,0.5,0.5,1)
         _BlackColor ("Black Areas Color", Color) = (0,0,0,1)
-        _WhiteThreshold ("White Threshold", Range(0,1)) = 0.7
-        _GreyThreshold ("Grey Threshold", Range(0,1)) = 0.3
+        _WhiteThreshold ("White Threshold", Range(0,1)) = 0.3
+        _GreyThreshold ("Grey Threshold", Range(0,1)) = 0.15
     }
     SubShader
     {
@@ -345,19 +345,29 @@ Shader "Custom/CamoShader"
 ### CamoMaterialApplier Component
 ```csharp
 using UnityEngine;
+using UnityEditor;
 
 public class CamoMaterialApplier : MonoBehaviour
 {
-    public Material targetMaterial;
-    public CamoColorSet camoSet;
+    private Material targetMaterial;
+    public CamoColors camoSet;
+
+    void Start()
+    {
+        targetMaterial = GetComponent<MeshRenderer>().materials[0];
+        ApplyColors();
+    }
 
     public void ApplyColors()
     {
-        if (targetMaterial == null || camoSet == null) return;
-
-        targetMaterial.SetColor("_ColorBlack", camoSet.colorForBlack);
-        targetMaterial.SetColor("_ColorGray", camoSet.colorForGray);
-        targetMaterial.SetColor("_ColorWhite", camoSet.colorForWhite);
+        if (targetMaterial == null || camoSet == null)
+        {
+            return;
+        }
+        
+        targetMaterial.SetColor("_BlackColor", camoSet.blackColor);
+        targetMaterial.SetColor("_GreyColor", camoSet.greyColor);
+        targetMaterial.SetColor("_WhiteColor", camoSet.whiteColor);
     }
 }
 ```
