@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/05f47b56-c0dc-4e5e-8d00-f104a1ed0ef6)# Camouflage System Implementation Guide
+# Camouflage System Implementation Guide
 ## 🎯 GOAL
 - Input: 3-color B&W camouflage PNG (Black, Gray, White)
 - Tool: Maya/Blender tool to allow recoloring these 3 values
