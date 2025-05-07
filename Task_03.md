@@ -24,7 +24,18 @@ Assets/
 │   ├── Shoes/
 │   └── Faces/
  ```
-
+### Define CustomizationCategory  (ScriptableObject)
+```csharp
+public enum CustomizationCategory
+{
+     Hair,
+     Eyewear,
+     Tops,
+     Bottoms,
+     Shoes,
+     Face
+}
+```
 ### Customization Item Definition (ScriptableObject)
 ```csharp
 [CreateAssetMenu(menuName = "Customization/Item")]
@@ -75,10 +86,16 @@ public void EquipItem(CustomizationItem item)
 - Follow naming conventions
 - Use consistent scale and orientation
 - Export in FBX format by category
+### Skin Weight Consistency
+- Modular parts must match the skin weights of the corresponding areas on the base mesh.
+- Avoid assigning a vertex to bones outside its expected influence zone (e.g., don't let a glove mesh get weights from the pelvis).
+- Use a copy-skin-weights or transfer-weights tool (like Maya’s Copy Skin Weights) when binding parts.
+- Limit to 4 bone influences per vertex (or 2 on very low-end targets) to maintain GPU skinning performance.
+- Keep weights clean—no stray influences or unnormalized values.
 
 ## 6. Testing & Profiling (TechArt)
 ### Performance Monitoring
-- Use Unity Profiler
+- Use Unity Profiler (Memory Profiler, Frame Debugger, or RenderDoc if deep analysis is needed)
 - Monitor CPU/GPU usage
 - Track draw calls and memory
 - Test on low-end devices
@@ -90,6 +107,13 @@ public void EquipItem(CustomizationItem item)
 - Test without runtime
 - The Artist has a place to showcase their works for review.
 - The Level Design and Game Design have a place to find the objects they need.
+### Skin Weight Debugging
+- Use Unity’s SkinnedMeshRenderer > Debug > Weights Visualization (via third-party or custom editor tools).
+- Validate:
+  + Bone influence limits
+  + Weight normalization
+  + No missing bones during runtime binding
+
   
 # Summary Checklist 
 | Area | Solution |
