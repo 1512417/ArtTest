@@ -114,7 +114,30 @@ public void EquipItem(CustomizationItem item)
   + Weight normalization
   + No missing bones during runtime binding
 
-  
+## 8. System Rationale & Advantages
+This character customization system is designed to be modular, scalable, and performance-friendly across platforms, including mobile. Here’s why this approach was chosen:
+
+###✅ Unified Base Mesh with Shared Rig
+- Consistency: Ensures that all modular parts align correctly and animate together.
+- Ease of Implementation: Only one rigging setup is needed, simplifying animation retargeting and tool development.
+###✅ Modular Meshes
+- Scalability: Artists and designers can add new content (e.g., new hairstyles, outfits) without modifying the core system.
+- Reuse Across Characters: Items like hats or glasses can be reused across different base characters with minimal effort.
+###✅ Bone-Based Attachment (No Blend Shapes)
+- Performance: Bone-based animation is GPU-accelerated and far more efficient on mobile and VR devices.
+- Flexibility: Supports runtime attachment and swapping without impacting the performance or morph target blending complexity.
+###✅ ScriptableObject-Based Item Definitions
+- Editor-Friendly: Easy for non-programmers to define and organize customization options.
+- Data-Driven: Encourages separation of logic and data, simplifying updates and maintenance.
+###✅ Texture Atlasing & Optimization
+- Reduced Draw Calls: Atlasing and texture arrays lower rendering overhead by batching materials.
+- Better GPU Utilization: Reduces memory switching and improves frame rates, especially on constrained devices.
+###✅ Level of Detail (LOD) and Object Pooling
+- Runtime Performance: LODs reduce the complexity of distant characters, while pooling avoids costly runtime instantiations and garbage collection spikes.
+###✅ Editor Tools for Artists and Designers
+- Faster Iteration: Artists can preview and validate their assets in-editor, reducing testing bottlenecks.
+- Cross-Department Collaboration: Designers can browse and use customization parts without involving tech artists or engineers.
+
 # Summary Checklist 
 | Area | Solution |
 |------|----------|
