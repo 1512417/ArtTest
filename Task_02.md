@@ -1,4 +1,4 @@
-# Camouflage System Implementation Guide
+![image](https://github.com/user-attachments/assets/05f47b56-c0dc-4e5e-8d00-f104a1ed0ef6)# Camouflage System Implementation Guide
 ## 🎯 GOAL
 - Input: 3-color B&W camouflage PNG (Black, Gray, White)
 - Tool: Maya/Blender tool to allow recoloring these 3 values
@@ -209,6 +209,8 @@ if __name__ == "__main__":
     show_dialog()
 ```
 ![image](https://github.com/user-attachments/assets/02b24823-6e71-454d-8328-5a2ce3e95372)
+![image](https://github.com/user-attachments/assets/d973ba26-43d3-42e4-8607-5fdb2ae366e0)
+![image](https://github.com/user-attachments/assets/5c79c9a6-f074-4c18-8b88-93858b2479a2)
 
 
 ## 🧾 Part 2: Unity Implementation
