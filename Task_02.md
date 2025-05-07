@@ -248,27 +248,98 @@ public class CamoColors : ScriptableObject
 5. Select your exported JSON file
 
 ## 🎨 Part 3: Shader Implementation
-### HLSL Version
-```hlsl
-fixed4 frag(v2f i) : SV_Target {
-    float sample = tex2D(_MainTex, i.uv).r;
+### Shader
+```shader
+Shader "Custom/CamoShader"
+{
+    Properties
+    {
+        _MainTex ("Texture", 2D) = "white" {}
+        _WhiteColor ("White Areas Color", Color) = (1,1,1,1)
+        _GreyColor ("Grey Areas Color", Color) = (0.5,0.5,0.5,1)
+        _BlackColor ("Black Areas Color", Color) = (0,0,0,1)
+        _WhiteThreshold ("White Threshold", Range(0,1)) = 0.7
+        _GreyThreshold ("Grey Threshold", Range(0,1)) = 0.3
+    }
+    SubShader
+    {
+        Tags { "RenderType"="Opaque" }
+        LOD 100
 
-    if (sample < 0.33) return _ColorBlack;
-    else if (sample < 0.66) return _ColorGray;
-    else return _ColorWhite;
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "UnityCG.cginc"
+
+            struct appdata
+            {
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+            };
+
+            struct v2f
+            {
+                float2 uv : TEXCOORD0;
+                float4 vertex : SV_POSITION;
+            };
+
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+            float4 _WhiteColor;
+            float4 _GreyColor;
+            float4 _BlackColor;
+            float _WhiteThreshold;
+            float _GreyThreshold;
+
+            v2f vert (appdata v)
+            {
+                v2f o;
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                return o;
+            }
+
+            fixed4 frag (v2f i) : SV_Target
+            {
+                fixed4 col = tex2D(_MainTex, i.uv);
+                float brightness = dot(col.rgb, float3(0.299, 0.587, 0.114)); // Convert to grayscale
+
+                fixed4 finalColor;
+                
+                if (brightness > _WhiteThreshold)
+                {
+                    finalColor = _WhiteColor;
+                }
+                else if (brightness > _GreyThreshold)
+                {
+                    finalColor = _GreyColor;
+                }
+                else
+                {
+                    finalColor = _BlackColor;
+                }
+
+                return finalColor;
+            }
+            ENDCG
+        }
+    }
 }
 ```
+![image](https://github.com/user-attachments/assets/3c594170-0ab5-4d88-be0c-404f6c19fa86)
 
 ### Shader Properties
 
 | Property | Type | Description |
 |---|---|---|
 | _MainTex | Texture2D | Grayscale camo pattern |
-| _ColorBlack | Color | Color for dark regions (0-0.33) |
-| _ColorGray | Color | Color for mid regions (0.33-0.66) |
-| _ColorWhite | Color | Color for light regions (0.66-1.0) |
-| _Threshold1 | Float | Lower threshold (default 0.33) |
-| _Threshold2 | Float | Upper threshold (default 0.66) |
+| _ColorBlack | Color | Color for dark regions (0-0.15) |
+| _ColorGray | Color | Color for mid regions (0.15-0.3) |
+| _ColorWhite | Color | Color for light regions (0.3-1.0) |
+| _WhiteThreshold | Float | Lower threshold (default 0.3) |
+| _GreyThreshold2 | Float | Upper threshold (default 0.15) |
 
 ## ⚙️ Part 4: Runtime Controller
 ### CamoMaterialApplier Component
