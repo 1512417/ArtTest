@@ -9,6 +9,11 @@
 
 ## 🧰 Part 1: DCC Tool Implementation
 ### Maya Export Tool
+The Camo Texture Editor is a Maya tool that allows users to preview and customize camouflage texture colors. It provides a simple interface to load a grayscale texture and assign specific colors to different luminance ranges (white, grey, and black areas). The tool also supports exporting color settings to Unity.
+- Load and preview grayscale textures
+- Real-time color customization
+- Live preview of color changes
+- Export color settings to Unity-compatible format
 ```python
 import os
 import json
@@ -203,31 +208,42 @@ def show_dialog():
 if __name__ == "__main__":
     show_dialog()
 ```
+![image](https://github.com/user-attachments/assets/02b24823-6e71-454d-8328-5a2ce3e95372)
 
-### Usage Example
-```python
-export_camouflage_set(
-    "UrbanCamo",
-    black_color=[0.1, 0.1, 0.1],
-    gray_color=[0.5, 0.5, 0.5],
-    white_color=[1.0, 1.0, 1.0],
-    export_path="C:/Temp/CamoSets"
-)
- ```
 
 ## 🧾 Part 2: Unity Implementation
 ### CamoColorSet ScriptableObject
 ```csharp
 using UnityEngine;
+using UnityEditor;
+using System.IO;
 
-[CreateAssetMenu(fileName = "NewCamoColorSet", menuName = "Customization/CamoColorSet")]
-public class CamoColorSet : ScriptableObject
+[CreateAssetMenu(fileName = "CamoColors", menuName = "Camo/Color Settings")]
+public class CamoColors : ScriptableObject
 {
-    public Color colorForBlack;
-    public Color colorForGray;
-    public Color colorForWhite;
+    public Color whiteColor = Color.white;
+    public Color greyColor = Color.gray;
+    public Color blackColor = Color.black;
+
+    [ContextMenu("Import Colors From JSON")]
+    public void ImportFromJson()
+    {
+        string path = EditorUtility.OpenFilePanel("Select JSON File", "", "json");
+        if (string.IsNullOrEmpty(path)) return;
+
+        string jsonContent = File.ReadAllText(path);
+        JsonUtility.FromJsonOverwrite(jsonContent, this);
+        EditorUtility.SetDirty(this);
+        AssetDatabase.SaveAssets();
+    }
 }
 ```
+### Importing Colors in Unity
+1. Create a new Color Settings asset (Right-click > Create > Camo > Color Settings)
+2. Select the created asset
+3. Right-click on the inspector header
+4. Choose "Import Colors From JSON"
+5. Select your exported JSON file
 
 ## 🎨 Part 3: Shader Implementation
 ### HLSL Version
