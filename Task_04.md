@@ -2,135 +2,142 @@
 Flipped normals during the Blender → Maya pipeline are a common issue due to differences in coordinate systems, FBX export/import settings, or mesh construction. Automating the detection and fixing of flipped normals inside Maya can drastically reduce back-and-forth between tools.
 
 ## ✅ Goals of the Tool
-- Detect faces with flipped/inverted normals
-- Automatically recalculate and unify normals to point outward
-- Support single or multiple meshes (start with base skin)
-- Provide a UI or simple script to process selected meshes
+- Automatically detect and fix flipped normals in imported 3D models
+- Provide a user-friendly interface for mesh normal correction
+- Give clear logs about the fixing process
 
 ## 🧠 Technical Strategy
-- Check for inconsistent face normals:
-  + Use the dot product of each face normal with the average vertex normal direction or bounding box centroid direction.
-  + Faces pointing inward are likely flipped.
-- Reverse face normals only when necessary.
-- Optionally, unify normals across connected faces to prevent lighting seams.
+### Mesh Processing:
+   - Works with selected mesh objects
+   - Handles both direct mesh selections and transform node selections
+   - Uses Maya's OpenMaya API for efficient geometry access
+### Normal Detection Algorithm:  
+   - For each face in the mesh:
+     + Calculates the face's geometric center
+     + Gets the face normal direction
+     + Determines if the normal is pointing inward by comparing the dot product of the normal and center vector
+     + Identifies faces with inverted normals (pointing inward)
+### Normal Correction: 
+   - Uses Maya's polyNormal command to flip identified faces
+   - Preserves mesh topology and UV mapping
+   - Processes multiple objects in a single operation
+### User Interface: 
+   - Simple, single-window design
+   - Clear action button
+   - Real-time feedback through a log window
+   - Persistent display of operation results
+### Error Handling: 
+   - Validates mesh selection
+   - Checks for valid geometry types
+   - Provides clear warning messages
+   - Gracefully handles non-mesh objects in selection
 
 ## 🧰 Tool Implementation
 ```python
 import maya.cmds as cmds
-import maya.OpenMayaUI as omui
-from PySide2 import QtWidgets, QtCore
-from shiboken2 import wrapInstance
+import maya.OpenMaya as om
 
-def maya_main_window():
-    main_window = omui.MQtUtil.mainWindow()
-    return wrapInstance(int(main_window), QtWidgets.QWidget)
-
-class NormalFixTool(QtWidgets.QDialog):
-    def __init__(self, parent=maya_main_window()):
-        super(NormalFixTool, self).__init__(parent)
-        
-        self.setWindowTitle("Normal Fix Tool")
-        self.setMinimumWidth(300)
-        self.create_widgets()
-        self.create_layout()
-        self.create_connections()
+def fix_flipped_normals():
+    # Clear previous log
+    cmds.scrollField('normalFixerLog', edit=True, clear=True)
     
-    def create_widgets(self):
-        self.check_btn = QtWidgets.QPushButton("Check Selected Objects")
-        self.select_flipped_btn = QtWidgets.QPushButton("Select Flipped Objects")
-        self.fix_btn = QtWidgets.QPushButton("Fix Selected Objects")
-        self.fix_all_btn = QtWidgets.QPushButton("Fix All Objects")
-        self.result_label = QtWidgets.QLabel("Select objects to check normals")
-        
-    def create_layout(self):
-        main_layout = QtWidgets.QVBoxLayout()
-        main_layout.addWidget(self.check_btn)
-        main_layout.addWidget(self.select_flipped_btn)
-        main_layout.addWidget(self.fix_btn)
-        main_layout.addWidget(self.fix_all_btn)
-        main_layout.addWidget(self.result_label)
-        self.setLayout(main_layout)
-        
-    def create_connections(self):
-        self.check_btn.clicked.connect(self.check_normals)
-        self.select_flipped_btn.clicked.connect(self.select_flipped_objects)
-        self.fix_btn.clicked.connect(lambda: self.fix_normals(selected_only=True))
-        self.fix_all_btn.clicked.connect(lambda: self.fix_normals(selected_only=False))
-
-    def select_flipped_objects(self):
-        all_meshes = cmds.ls(type='mesh', dag=True, long=True)
-        flipped_objects = []
-        
-        for mesh in all_meshes:
-            face_normals = cmds.polyInfo(mesh, faceNormals=True)
-            if face_normals:
-                for normal in face_normals:
-                    nx, ny, nz = map(float, normal.split()[2:5])
-                    if nx < 0 or ny < 0 or nz < 0:
-                        # Get transform node instead of shape node
-                        transform = cmds.listRelatives(mesh, parent=True, fullPath=True)[0]
-                        flipped_objects.append(transform)
-                        break
-        
-        if flipped_objects:
-            cmds.select(flipped_objects, replace=True)
-            self.result_label.setText(f"Selected {len(flipped_objects)} objects with flipped normals")
+    # Get selected objects
+    selection = cmds.ls(selection=True)
+    
+    if not selection:
+        log_message("Please select a mesh object")
+        return
+    
+    for obj in selection:
+        # Ensure we're working with a mesh
+        if cmds.objectType(obj, isType="transform"):
+            shapes = cmds.listRelatives(obj, shapes=True)
+            if shapes:
+                mesh = shapes[0]
         else:
-            cmds.select(clear=True)
-            self.result_label.setText("No flipped normals found in scene")
-    
-    def check_normals(self):
-        selection = cmds.ls(selection=True, type='mesh', dag=True, long=True)
-        if not selection:
-            self.result_label.setText("No objects selected")
-            return
+            mesh = obj
             
-        flipped_count = 0
-        for mesh in selection:
-            # Get face normals
-            face_normals = cmds.polyInfo(mesh, faceNormals=True)
-            if face_normals:
-                # Check for negative normals
-                for normal in face_normals:
-                    nx, ny, nz = map(float, normal.split()[2:5])
-                    if nx < 0 or ny < 0 or nz < 0:
-                        flipped_count += 1
-                        break
+        if not cmds.objectType(mesh, isType="mesh"):
+            continue
+            
+        # Get the mesh's MFnMesh
+        selection_list = om.MSelectionList()
+        selection_list.add(mesh)
+        dag_path = om.MDagPath()
+        selection_list.getDagPath(0, dag_path)
+        mesh_fn = om.MFnMesh(dag_path)
         
-        if flipped_count > 0:
-            self.result_label.setText(f"Found {flipped_count} objects with flipped normals")
+        # Get face normals
+        normal_count = mesh_fn.numNormals()
+        face_count = mesh_fn.numPolygons()
+        
+        flipped_faces = []
+        
+        # Check each face's normal direction
+        for face_id in range(face_count):
+            normal = om.MVector()
+            mesh_fn.getPolygonNormal(face_id, normal)
+            
+            # Get face center position
+            center = om.MVector()  # Changed from MPoint to MVector
+            vertices = om.MPointArray()
+            mesh_fn.getPoints(vertices)
+            
+            vertex_list = om.MIntArray()
+            mesh_fn.getPolygonVertices(face_id, vertex_list)
+            
+            # Calculate geometric center using MVector
+            for i in range(vertex_list.length()):
+                vertex_point = vertices[vertex_list[i]]
+                center += om.MVector(vertex_point.x, vertex_point.y, vertex_point.z)
+            center = center / vertex_list.length()
+            
+            # Check if normal is pointing inward
+            if normal.length() > 0:
+                normalized_normal = normal.normal()
+                if normalized_normal * center < 0:  # Simplified since center is already MVector
+                    flipped_faces.append(face_id)
+        
+        # Fix flipped faces
+        if flipped_faces:
+            face_names = [f"{mesh}.f[{face}]" for face in flipped_faces]
+            cmds.polyNormal(face_names, normalMode=0, userNormalMode=0, ch=1)
+            log_message(f"Fixed {len(flipped_faces)} flipped normals in {obj}")
         else:
-            self.result_label.setText("No flipped normals found")
+            log_message(f"No flipped normals found in {obj}")
+
+def log_message(message):
+    # Add message to log field and print to console
+    cmds.scrollField('normalFixerLog', edit=True, insertText=message + '\n')
+    print(message)
+
+def create_normal_fix_ui():
+    window_name = "normalFixerUI"
     
-    def fix_normals(self, selected_only=True):
-        if selected_only:
-            meshes = cmds.ls(selection=True, type='mesh', dag=True, long=True)
-            if not meshes:
-                self.result_label.setText("No objects selected")
-                return
-        else:
-            meshes = cmds.ls(type='mesh', dag=True, long=True)
-            if not meshes:
-                self.result_label.setText("No mesh objects in scene")
-                return
-        
-        fixed_count = 0
-        for mesh in meshes:
-            # Unify normals
-            cmds.polyNormal(mesh, normalMode=2, userNormalMode=0, ch=1)
-            # Orient normals outward
-            cmds.polySetToFaceNormal(mesh)
-            fixed_count += 1
-        
-        self.result_label.setText(f"Fixed normals on {fixed_count} objects")
+    if cmds.window(window_name, exists=True):
+        cmds.deleteUI(window_name)
+    
+    window = cmds.window(window_name, title="Normal Fixer", width=300)
+    
+    cmds.columnLayout(adjustableColumn=True, columnOffset=['both', 10])
+    cmds.text(label="Select mesh objects and click the button to fix flipped normals")
+    cmds.separator(height=10)
+    cmds.button(label="Fix Flipped Normals", command=lambda x: fix_flipped_normals())
+    cmds.separator(height=10)
+    
+    # Add scrollable log field
+    cmds.text(label="Log:")
+    cmds.scrollField('normalFixerLog', width=280, height=150, wordWrap=True, 
+                    editable=False, text="Ready to process...\n")
+    
+    cmds.showWindow(window)
 
-def show_dialog():
-    dialog = NormalFixTool()
-    dialog.show()
-
-if __name__ == "__main__":
-    show_dialog()
+# Show the UI
+create_normal_fix_ui()
 ```
+![image](https://github.com/user-attachments/assets/7d11b29d-60d1-4442-809f-eed33ed069e7)
+![image](https://github.com/user-attachments/assets/8a6be089-a088-4b4c-8dab-b63dcc34cf9c)
+
 
 ## ⚙️ TIPS FOR FBX EXPORT/IMPORT
 To prevent issues before they reach Maya:
@@ -144,7 +151,6 @@ To prevent issues before they reach Maya:
 - Make sure Normals and Tangents are preserved (not recalculated automatically).
 - Check Coordinate Conversion behavior if orientation issues occur.
 
-Check conversion
 ## 🧪 Quality Verification
 ### Debug Tools
 - Add a debug overlay: colorize flipped faces
