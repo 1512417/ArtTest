@@ -1,0 +1,335 @@
+Using pre-set license
+Built from '6000.1/staging' branch; Version is '6000.1.1f1 (7197418f847b) revision 7444289'; Using compiler version '194234433'; Build Type 'Release'
+OS: 'Windows 11  (10.0.26100) 64bit Professional' Language: 'en' Physical Memory: 65371 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
+Date: 2025-05-06T16:03:36Z
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.1.1f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+C:/Users/Admin/Desktop/ArtTest
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+63030
+-job-worker-count
+7
+-background-job-worker-count
+8
+-gc-helper-count
+1
+-name
+AssetImport
+Successfully changed project path to: C:/Users/Admin/Desktop/ArtTest
+C:/Users/Admin/Desktop/ArtTest
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [16368]  Target information:
+
+Player connection [16368]  * "[IP] 192.168.1.6 [Port] 0 [Flags] 2 [Guid] 1415928375 [EditorId] 1415928375 [Version] 1048832 [Id] WindowsEditor(7,PhuongPhung) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [16368] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [16368] Host joined alternative multi-casting on [225.0.0.222:34997]...
+JobSystem: Creating JobQueue using job-worker-count value 7
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Refreshing native plugins compatible for Editor in 1.49 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 6000.1.1f1 (7197418f847b)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.1.1f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/Admin/Desktop/ArtTest/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+Direct3D:
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce RTX 4070 (ID=0x2786)
+    Vendor:          NVIDIA
+    VRAM:            12012 MB
+    App VRAM Budget: 11244 MB
+    Driver:          32.0.15.6094
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.1.1f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.1.1f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.1.1f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56504
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.1.1f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.1.1f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.001177 seconds.
+- Loaded All Assemblies, in  0.335 seconds
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.295 seconds
+Domain Reload Profiling: 630ms
+	BeginReloadAssembly (110ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (32ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (42ms)
+	LoadAllAssembliesAndSetupDomain (140ms)
+		LoadAssemblies (108ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (137ms)
+			TypeCache.Refresh (136ms)
+				TypeCache.ScanAssembly (125ms)
+			BuildScriptInfoCaches (0ms)
+			ResolveRequiredComponents (0ms)
+	FinalizeReload (296ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (265ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (54ms)
+			SetLoadedEditorAssemblies (3ms)
+			BeforeProcessingInitializeOnLoad (49ms)
+			ProcessInitializeOnLoadAttributes (113ms)
+			ProcessInitializeOnLoadMethodAttributes (44ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+========================================================================
+Worker process is ready to serve import requests
+Import Worker Mode flag is 0x00
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  0.646 seconds
+Refreshing native plugins compatible for Editor in 0.57 ms, found 3 plugins.
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.748 seconds
+Domain Reload Profiling: 1391ms
+	BeginReloadAssembly (144ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (6ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (23ms)
+	RebuildCommonClasses (31ms)
+	RebuildNativeTypeToScriptingClass (11ms)
+	initialDomainReloadingComplete (32ms)
+	LoadAllAssembliesAndSetupDomain (424ms)
+		LoadAssemblies (301ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (206ms)
+			TypeCache.Refresh (156ms)
+				TypeCache.ScanAssembly (142ms)
+			BuildScriptInfoCaches (38ms)
+			ResolveRequiredComponents (9ms)
+	FinalizeReload (748ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (569ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (2ms)
+			SetLoadedEditorAssemblies (4ms)
+			BeforeProcessingInitializeOnLoad (107ms)
+			ProcessInitializeOnLoadAttributes (402ms)
+			ProcessInitializeOnLoadMethodAttributes (48ms)
+			AfterProcessingInitializeOnLoad (6ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (6ms)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.01 seconds
+Refreshing native plugins compatible for Editor in 0.70 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 230 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 6001 unused Assets / (4.4 MB). Loaded Objects now: 6730.
+Memory consumption went from 253.0 MB to 248.6 MB.
+Total: 6.637500 ms (FindLiveObjects: 0.545700 ms CreateObjectMapping: 0.339100 ms MarkObjects: 3.829400 ms  DeleteObjects: 1.921800 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 1553694.614830 seconds.
+  path: Assets/ArtTest/Materials/M_M14_MuzzlePart.mat
+  artifactKey: Guid(3ff51ece04999a64893c301315a4918b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtTest/Materials/M_M14_MuzzlePart.mat using Guid(3ff51ece04999a64893c301315a4918b) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'ab16f6a2b1159cfbcdd2253d98f0f69e') in 0.5045348 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000063 seconds.
+  path: Assets/Polytope Studio
+  artifactKey: Guid(115939fafdaab3542ac9de578833169e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Polytope Studio using Guid(115939fafdaab3542ac9de578833169e) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '26fb2955e504f336565cef2470ad08cb') in 0.0006124 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000022 seconds.
+  path: Assets/ArtTest/Materials/M_M14_UpperPart.mat
+  artifactKey: Guid(21c5ed3f8609ed0429c91b911f9279d6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtTest/Materials/M_M14_UpperPart.mat using Guid(21c5ed3f8609ed0429c91b911f9279d6) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '72cd3a930791b73105bb1b9dca6e0e35') in 0.0186719 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 9
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000024 seconds.
+  path: Assets/ArtTest/Materials/M_M14_MainPart.mat
+  artifactKey: Guid(eafa122e2eaae2540ab1ed47366efca5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtTest/Materials/M_M14_MainPart.mat using Guid(eafa122e2eaae2540ab1ed47366efca5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '88febe9628d01788192e8e739ef43d54') in 0.0159903 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 9
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000024 seconds.
+  path: Assets/ArtTest/Materials/M_M14_02.mat
+  artifactKey: Guid(dd5bf61d367ff7a44b8406a041bfc683) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtTest/Materials/M_M14_02.mat using Guid(dd5bf61d367ff7a44b8406a041bfc683) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'd3351d37c7ceec76ec169cf8cf59e624') in 0.015044 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000026 seconds.
+  path: Assets/ArtTest/Materials/M_M14_TriggerMain.mat
+  artifactKey: Guid(421da747a0f747a4eb1ee31baf32acba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtTest/Materials/M_M14_TriggerMain.mat using Guid(421da747a0f747a4eb1ee31baf32acba) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '0458d8f4d64e63b9d76b553f07c28e04') in 0.0152538 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000029 seconds.
+  path: Assets/ArtTest/Materials/M_M14_Handle.mat
+  artifactKey: Guid(36fca1df406472b4095d9b01b45afae2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtTest/Materials/M_M14_Handle.mat using Guid(36fca1df406472b4095d9b01b45afae2) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'd45306ceeb602c673ef8b425b6b9fa15') in 0.0139783 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000029 seconds.
+  path: Assets/Scenes
+  artifactKey: Guid(9c53962885c2c4f449125a979d6ad240) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes using Guid(9c53962885c2c4f449125a979d6ad240) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'd65b75f456837a3494a5e6e744543932') in 0.0005077 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000025 seconds.
+  path: Assets/ArtTest/Materials/M_M14_Laser.mat
+  artifactKey: Guid(bb989726014a5ff4989b4b13ebdfa2f4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtTest/Materials/M_M14_Laser.mat using Guid(bb989726014a5ff4989b4b13ebdfa2f4) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '1e0dc4d81a0568d47e97e0d5844f2a61') in 0.0149729 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 9
+
+========================================================================
+Received Import Request.
+  Time since last request: 77.573462 seconds.
+  path: Assets/ArtTest/Shaders/Lava.shadergraph
+  artifactKey: Guid(8f52e75db17f47944b2b1ac3bcbfa47f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtTest/Shaders/Lava.shadergraph using Guid(8f52e75db17f47944b2b1ac3bcbfa47f) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '4e2bf676573279b02092a64d4e1d345c') in 2.5407127 seconds
+Number of updated asset objects reloaded before import = 1Number of asset objects unloaded after import = 5
+
+========================================================================
+Received Import Request.
+  Time since last request: 37.492027 seconds.
+  path: Assets/ArtTest/Shaders/CustomVoronoi.hlsl
+  artifactKey: Guid(f9db51cde8a6ec341a5581d9b85fdfa6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtTest/Shaders/CustomVoronoi.hlsl using Guid(f9db51cde8a6ec341a5581d9b85fdfa6) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '46d97fe45055a6b1fe3501742e80e753') in 0.0011664 seconds
+Number of updated asset objects reloaded before import = 1Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.366380 seconds.
+  path: Assets/ArtTest/Materials/Material.001.mat
+  artifactKey: Guid(58200b023e9fa214b894073f9c9633aa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtTest/Materials/Material.001.mat using Guid(58200b023e9fa214b894073f9c9633aa) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '63c3976bc347bcbebbbe697b79915fca') in 2.987126 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 51.652844 seconds.
+  path: Assets/ArtTest/Shaders/Lava.shadergraph
+  artifactKey: Guid(8f52e75db17f47944b2b1ac3bcbfa47f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtTest/Shaders/Lava.shadergraph using Guid(8f52e75db17f47944b2b1ac3bcbfa47f) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '3ee94072613f426376e7060bf8a0f17b') in 0.0130483 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 5
+
+========================================================================
+Received Import Request.
+  Time since last request: 12.795600 seconds.
+  path: Assets/ArtTest/Shaders/Voronoi.shadergraph
+  artifactKey: Guid(8f52e75db17f47944b2b1ac3bcbfa47f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtTest/Shaders/Voronoi.shadergraph using Guid(8f52e75db17f47944b2b1ac3bcbfa47f) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'e26b1285df1bb997004e3718e1fdda5a') in 2.4722603 seconds
+Number of updated asset objects reloaded before import = 1Number of asset objects unloaded after import = 5
+
+========================================================================
+Received Import Request.
+  Time since last request: 30.071657 seconds.
+  path: Assets/ArtTest/Shaders/Voronoi.shadergraph
+  artifactKey: Guid(8f52e75db17f47944b2b1ac3bcbfa47f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtTest/Shaders/Voronoi.shadergraph using Guid(8f52e75db17f47944b2b1ac3bcbfa47f) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '7a4b895bd8373367c0f4b1605438d3cc') in 0.0196574 seconds
+Number of updated asset objects reloaded before import = 1Number of asset objects unloaded after import = 5
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.588696 seconds.
+  path: Assets/ArtTest/Materials/Material.001.mat
+  artifactKey: Guid(58200b023e9fa214b894073f9c9633aa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtTest/Materials/Material.001.mat using Guid(58200b023e9fa214b894073f9c9633aa) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'cd3a5d6ff52e5ebd7cefbf45ad4a3b52') in 0.0207422 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 8
+
+========================================================================
+Received Import Request.
+  Time since last request: 11.495221 seconds.
+  path: Assets/ArtTest/Materials/M_M14_Electric.mat
+  artifactKey: Guid(6d8e6c1555d071d4ba9a4014a2e9d737) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtTest/Materials/M_M14_Electric.mat using Guid(6d8e6c1555d071d4ba9a4014a2e9d737) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '290308f00b4de67aa0cd38595f11e391') in 0.014614 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 10
+
+========================================================================
+Received Import Request.
+  Time since last request: 28.510892 seconds.
+  path: Assets/ArtTest/Materials/M_M14_Electric.mat
+  artifactKey: Guid(6d8e6c1555d071d4ba9a4014a2e9d737) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtTest/Materials/M_M14_Electric.mat using Guid(6d8e6c1555d071d4ba9a4014a2e9d737) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'ccdfbd67e47c16e4784ec595034eb540') in 0.0203228 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 10
+
