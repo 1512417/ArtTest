@@ -17,24 +17,119 @@ Flipped normals during the Blender → Maya pipeline are a common issue due to d
 ## 🧰 Tool Implementation
 ```python
 import maya.cmds as cmds
+import maya.OpenMayaUI as omui
+from PySide2 import QtWidgets, QtCore
+from shiboken2 import wrapInstance
 
-def fix_flipped_normals(mesh_name):
-    if not cmds.objExists(mesh_name):
-        cmds.warning(f"Mesh '{mesh_name}' does not exist.")
-        return
+def maya_main_window():
+    main_window = omui.MQtUtil.mainWindow()
+    return wrapInstance(int(main_window), QtWidgets.QWidget)
 
-    # Select and make the normals consistent
-    cmds.select(mesh_name, r=True)
-    cmds.polySetToFaceNormal(mesh_name, setUserNormal=True)
-    cmds.polyNormal(mesh_name, normalMode=0, userNormalMode=0, ch=0)  # Set to 'Unify'
+class NormalFixTool(QtWidgets.QDialog):
+    def __init__(self, parent=maya_main_window()):
+        super(NormalFixTool, self).__init__(parent)
+        
+        self.setWindowTitle("Normal Fix Tool")
+        self.setMinimumWidth(300)
+        self.create_widgets()
+        self.create_layout()
+        self.create_connections()
     
-    # Flip faces pointing inward
-    cmds.polyNormal(mesh_name, normalMode=0, ch=0)  # normalMode=0 = 'Reverse'
-    
-    print(f"Normals fixed for: {mesh_name}")
+    def create_widgets(self):
+        self.check_btn = QtWidgets.QPushButton("Check Selected Objects")
+        self.select_flipped_btn = QtWidgets.QPushButton("Select Flipped Objects")
+        self.fix_btn = QtWidgets.QPushButton("Fix Selected Objects")
+        self.fix_all_btn = QtWidgets.QPushButton("Fix All Objects")
+        self.result_label = QtWidgets.QLabel("Select objects to check normals")
+        
+    def create_layout(self):
+        main_layout = QtWidgets.QVBoxLayout()
+        main_layout.addWidget(self.check_btn)
+        main_layout.addWidget(self.select_flipped_btn)
+        main_layout.addWidget(self.fix_btn)
+        main_layout.addWidget(self.fix_all_btn)
+        main_layout.addWidget(self.result_label)
+        self.setLayout(main_layout)
+        
+    def create_connections(self):
+        self.check_btn.clicked.connect(self.check_normals)
+        self.select_flipped_btn.clicked.connect(self.select_flipped_objects)
+        self.fix_btn.clicked.connect(lambda: self.fix_normals(selected_only=True))
+        self.fix_all_btn.clicked.connect(lambda: self.fix_normals(selected_only=False))
 
-# Example usage
-fix_flipped_normals("BaseSkinMesh")
+    def select_flipped_objects(self):
+        all_meshes = cmds.ls(type='mesh', dag=True, long=True)
+        flipped_objects = []
+        
+        for mesh in all_meshes:
+            face_normals = cmds.polyInfo(mesh, faceNormals=True)
+            if face_normals:
+                for normal in face_normals:
+                    nx, ny, nz = map(float, normal.split()[2:5])
+                    if nx < 0 or ny < 0 or nz < 0:
+                        # Get transform node instead of shape node
+                        transform = cmds.listRelatives(mesh, parent=True, fullPath=True)[0]
+                        flipped_objects.append(transform)
+                        break
+        
+        if flipped_objects:
+            cmds.select(flipped_objects, replace=True)
+            self.result_label.setText(f"Selected {len(flipped_objects)} objects with flipped normals")
+        else:
+            cmds.select(clear=True)
+            self.result_label.setText("No flipped normals found in scene")
+    
+    def check_normals(self):
+        selection = cmds.ls(selection=True, type='mesh', dag=True, long=True)
+        if not selection:
+            self.result_label.setText("No objects selected")
+            return
+            
+        flipped_count = 0
+        for mesh in selection:
+            # Get face normals
+            face_normals = cmds.polyInfo(mesh, faceNormals=True)
+            if face_normals:
+                # Check for negative normals
+                for normal in face_normals:
+                    nx, ny, nz = map(float, normal.split()[2:5])
+                    if nx < 0 or ny < 0 or nz < 0:
+                        flipped_count += 1
+                        break
+        
+        if flipped_count > 0:
+            self.result_label.setText(f"Found {flipped_count} objects with flipped normals")
+        else:
+            self.result_label.setText("No flipped normals found")
+    
+    def fix_normals(self, selected_only=True):
+        if selected_only:
+            meshes = cmds.ls(selection=True, type='mesh', dag=True, long=True)
+            if not meshes:
+                self.result_label.setText("No objects selected")
+                return
+        else:
+            meshes = cmds.ls(type='mesh', dag=True, long=True)
+            if not meshes:
+                self.result_label.setText("No mesh objects in scene")
+                return
+        
+        fixed_count = 0
+        for mesh in meshes:
+            # Unify normals
+            cmds.polyNormal(mesh, normalMode=2, userNormalMode=0, ch=1)
+            # Orient normals outward
+            cmds.polySetToFaceNormal(mesh)
+            fixed_count += 1
+        
+        self.result_label.setText(f"Fixed normals on {fixed_count} objects")
+
+def show_dialog():
+    dialog = NormalFixTool()
+    dialog.show()
+
+if __name__ == "__main__":
+    show_dialog()
 ```
 
 ## ⚙️ TIPS FOR FBX EXPORT/IMPORT
