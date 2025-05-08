@@ -60,14 +60,12 @@ Allow toggling dynamic bones based on device capability or graphics settings.
 
 ## 📋 Technical Constraints
 
-| Constraint | Mobile Target |
-|------------|---------------|
-| Max Dynamic Bone Chains | 2 per outfit |
-| Max Bones per Chain | 3-5 |
-| Update Frequency | Every 2 frames |
-| Colliders | Max 2 per character |
-| Fallback Behavior | Replace with static pose |
-| LOD Switching | Off when beyond 10m |
+| Device Tier | Max Chains | Bones/Chain | Update Rate | Collision |
+|-------------|------------|-------------|-------------|-----------|
+| High-End    | 3         | 5           | 30Hz (half rate of 60FPS gameplay) | Simple    |
+| Mid-Tier    | 2         | 3           | 20Hz        | None      |
+| Low-End     | 1         | 2           | 15Hz        | None      |
+| Minimum     | 0         | Static Only  | N/A         | N/A       |
 
 ## ✅ Pipeline Checklist for High-Tier Dynamic Outfits
 
