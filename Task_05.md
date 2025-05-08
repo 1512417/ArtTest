@@ -64,8 +64,7 @@ Allow toggling dynamic bones based on device capability or graphics settings.
 |-------------|------------|-------------|-------------|-----------|
 | High-End    | 3         | 5           | 30Hz (half rate of 60FPS gameplay) | Simple    |
 | Mid-Tier    | 2         | 3           | 20Hz        | None      |
-| Low-End     | 1         | 2           | 15Hz        | None      |
-| Minimum     | 0         | Static Only  | N/A         | N/A       |
+| Low-End     | 0         | Static Only  | N/A         | N/A       |
 
 ## ✅ Pipeline Checklist for High-Tier Dynamic Outfits
 
