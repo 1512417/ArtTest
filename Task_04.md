@@ -163,3 +163,5 @@ A Validator tool should be built that includes all QC tools for artists to valid
 If you don't have one, I can build it for you, like this:
 
 ![image](https://github.com/user-attachments/assets/22973233-f46b-4c97-a0cc-62f2494c2c99)
+![image](https://github.com/user-attachments/assets/bfe65552-0d7e-4491-80b1-00bca2ba59a7)
+
