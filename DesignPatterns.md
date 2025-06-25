@@ -26,6 +26,53 @@ public class GameManager : MonoBehaviour
     }
 }
 ```
+```Csharp
+// GameManager.cs
+public class GameManager : MonoBehaviour
+{
+    private static GameManager instance;
+    public static GameManager Instance => instance;
+
+    public int score;
+    public int highScore;
+    public bool isPaused;
+
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    public void PauseGame()
+    {
+        isPaused = true;
+        Time.timeScale = 0;
+    }
+
+    public void ResumeGame()
+    {
+        isPaused = false;
+        Time.timeScale = 1;
+    }
+}
+
+// Sử dụng trong các script khác
+public class PlayerController : MonoBehaviour
+{
+    void Update()
+    {
+        if (GameManager.Instance.isPaused)
+            return;
+
+        // Logic xử lý player
+    }
+}
+```
 ## 2. Observer Pattern
 - Mục đích : Định nghĩa mối quan hệ 1-nhiều giữa các đối tượng, khi một đối tượng thay đổi trạng thái, tất cả phụ thuộc của nó được thông báo và cập nhật tự động.
 - Ứng dụng : Hệ thống Event, UI Updates, Achievement System
@@ -65,6 +112,43 @@ public class UIManager : MonoBehaviour
     }
 }
 ```
+```Csharp
+// AchievementSystem.cs
+public class AchievementSystem : MonoBehaviour
+{
+    public delegate void ScoreReachedHandler(int score);
+    public static event ScoreReachedHandler OnScoreReached;
+
+    private void Update()
+    {
+        int currentScore = GameManager.Instance.score;
+        if (currentScore >= 1000)
+        {
+            OnScoreReached?.Invoke(currentScore);
+        }
+    }
+}
+
+// AchievementUnlocker.cs
+public class AchievementUnlocker : MonoBehaviour
+{
+    void OnEnable()
+    {
+        AchievementSystem.OnScoreReached += UnlockScoreAchievement;
+    }
+
+    void OnDisable()
+    {
+        AchievementSystem.OnScoreReached -= UnlockScoreAchievement;
+    }
+
+    void UnlockScoreAchievement(int score)
+    {
+        Debug.Log($"Đạt thành tích: Đạt {score} điểm!");
+        // Hiển thị UI thành tích
+    }
+}
+```
 ## 3. Object Pool Pattern
 - Mục đích : Tái sử dụng đối tượng thay vì tạo/hủy liên tục, cải thiện hiệu suất.
 - Ứng dụng : Đạn bắn, particle effects, enemies
@@ -99,6 +183,57 @@ public class ObjectPool : MonoBehaviour
         }
         return null;
     }
+}
+```
+```Csharp
+// BulletPool.cs
+public class BulletPool : MonoBehaviour
+{
+    public static BulletPool Instance;
+    public GameObject bulletPrefab;
+    public int poolSize = 30;
+
+    private List<GameObject> bullets;
+
+    void Awake()
+    {
+        Instance = this;
+        bullets = new List<GameObject>();
+
+        for (int i = 0; i < poolSize; i++)
+        {
+            GameObject bullet = Instantiate(bulletPrefab);
+            bullet.SetActive(false);
+            bullets.Add(bullet);
+        }
+    }
+
+    public GameObject GetBullet()
+    {
+        foreach (GameObject bullet in bullets)
+        {
+            if (!bullet.activeInHierarchy)
+            {
+                bullet.SetActive(true);
+                return bullet;
+            }
+        }
+        return null;
+    }
+}
+
+// Weapon.cs
+public class Weapon : MonoBehaviour
+{
+    public void Shoot()
+    {
+        GameObject bullet = BulletPool.Instance.GetBullet();
+        if (bullet != null)
+        {
+            bullet.transform.position = transform.position;
+            bullet.transform.rotation = transform.rotation;
+        }
+    }
 }
 ```
 ## 4. Command Pattern
@@ -136,6 +271,70 @@ public class MoveCommand : ICommand
     }
 }
 ```
+```Csharp
+// Command Interface và các lệnh cụ thể
+public interface ICommand
+{
+    void Execute();
+    void Undo();
+}
+
+public class JumpCommand : ICommand
+{
+    private PlayerController player;
+    private float jumpForce;
+    private Vector3 previousPosition;
+
+    public JumpCommand(PlayerController player, float jumpForce)
+    {
+        this.player = player;
+        this.jumpForce = jumpForce;
+    }
+
+    public void Execute()
+    {
+        previousPosition = player.transform.position;
+        player.Jump(jumpForce);
+    }
+
+    public void Undo()
+    {
+        player.transform.position = previousPosition;
+    }
+}
+
+// InputHandler.cs
+public class InputHandler : MonoBehaviour
+{
+    private PlayerController player;
+    private Stack<ICommand> commandHistory;
+
+    void Start()
+    {
+        player = GetComponent<PlayerController>();
+        commandHistory = new Stack<ICommand>();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ICommand jumpCommand = new JumpCommand(player, 5f);
+            jumpCommand.Execute();
+            commandHistory.Push(jumpCommand);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            if (commandHistory.Count > 0)
+            {
+                ICommand lastCommand = commandHistory.Pop();
+                lastCommand.Undo();
+            }
+        }
+    }
+}
+```
 ## 5. State Pattern
 - Mục đích : Cho phép một đối tượng thay đổi hành vi khi trạng thái nội bộ của nó thay đổi.
 - Ứng dụng : AI behavior, character states, game states
@@ -171,6 +370,124 @@ public class IdleState : IState
     {
         // Dọn dẹp trước khi chuyển state
     }
+}
+```
+```Csharp
+// Các trạng thái
+public interface IEnemyState
+{
+    void EnterState(Enemy enemy);
+    void UpdateState(Enemy enemy);
+    void ExitState(Enemy enemy);
+}
+
+public class PatrolState : IEnemyState
+{
+    private Vector3[] patrolPoints;
+    private int currentPoint;
+
+    public void EnterState(Enemy enemy)
+    {
+        Debug.Log("Bắt đầu tuần tra");
+        currentPoint = 0;
+    }
+
+    public void UpdateState(Enemy enemy)
+    {
+        // Di chuyển giữa các điểm tuần tra
+        Vector3 target = patrolPoints[currentPoint];
+        enemy.MoveTo(target);
+
+        if (Vector3.Distance(enemy.transform.position, target) < 0.1f)
+        {
+            currentPoint = (currentPoint + 1) % patrolPoints.Length;
+        }
+
+        // Kiểm tra phát hiện player
+        if (enemy.DetectPlayer())
+        {
+            enemy.ChangeState(new ChaseState());
+        }
+    }
+
+    public void ExitState(Enemy enemy)
+    {
+        Debug.Log("Kết thúc tuần tra");
+    }
+}
+
+public class ChaseState : IEnemyState
+{
+    public void EnterState(Enemy enemy)
+    {
+        Debug.Log("Bắt đầu truy đuổi");
+    }
+
+    public void UpdateState(Enemy enemy)
+    {
+        // Truy đuổi player
+        Transform player = enemy.GetPlayerTransform();
+        if (player != null)
+        {
+            enemy.MoveTo(player.position);
+        }
+
+        // Mất dấu player
+        if (!enemy.DetectPlayer())
+        {
+            enemy.ChangeState(new PatrolState());
+        }
+    }
+
+    public void ExitState(Enemy enemy)
+    {
+        Debug.Log("Kết thúc truy đuổi");
+    }
+}
+
+// Enemy.cs
+public class Enemy : MonoBehaviour
+{
+    private IEnemyState currentState;
+    private Transform player;
+    public float moveSpeed = 5f;
+    public float detectionRange = 10f;
+
+    void Start()
+    {
+        ChangeState(new PatrolState());
+    }
+
+    void Update()
+    {
+        currentState?.UpdateState(this);
+    }
+
+    public void ChangeState(IEnemyState newState)
+    {
+        currentState?.ExitState(this);
+        currentState = newState;
+        currentState.EnterState(this);
+    }
+
+    public void MoveTo(Vector3 position)
+    {
+        transform.position = Vector3.MoveTowards(
+            transform.position,
+            position,
+            moveSpeed * Time.deltaTime
+        );
+    }
+
+    public bool DetectPlayer()
+    {
+        return Vector3.Distance(transform.position, player.position) < detectionRange;
+    }
+
+    public Transform GetPlayerTransform()
+    {
+        return player;
+    }
 }
 ```
 ## Lời khuyên khi sử dụng Design Patterns
