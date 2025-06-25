@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 - Mục đích : Định nghĩa mối quan hệ 1-nhiều giữa các đối tượng, khi một đối tượng thay đổi trạng thái, tất cả phụ thuộc của nó được thông báo và cập nhật tự động.
 - Ứng dụng : Hệ thống Event, UI Updates, Achievement System
 - Cách triển khai :
-```
+```Csharp
 // Subject (Publisher)
 public class ScoreManager
 {
@@ -69,7 +69,7 @@ public class UIManager : MonoBehaviour
 - Mục đích : Tái sử dụng đối tượng thay vì tạo/hủy liên tục, cải thiện hiệu suất.
 - Ứng dụng : Đạn bắn, particle effects, enemies
 - Cách triển khai :
-```
+```Csharp
 public class ObjectPool : MonoBehaviour
 {
     public GameObject prefab;
@@ -105,7 +105,7 @@ public class ObjectPool : MonoBehaviour
 - Mục đích : Đóng gói yêu cầu thành đối tượng, cho phép tham số hóa client với các yêu cầu khác nhau.
 - Ứng dụng : Hệ thống undo/redo, input handling, ability system
 - Cách triển khai :
-```
+```Csharp
 public interface ICommand
 {
     void Execute();
@@ -140,7 +140,7 @@ public class MoveCommand : ICommand
 - Mục đích : Cho phép một đối tượng thay đổi hành vi khi trạng thái nội bộ của nó thay đổi.
 - Ứng dụng : AI behavior, character states, game states
 - Cách triển khai :
-```
+```Csharp
 public interface IState
 {
     void Enter();
